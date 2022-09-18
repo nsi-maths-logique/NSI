@@ -56,12 +56,7 @@ Image_I = {2,4,6,8}
 Def_I = {(x, y, z) for x in Domaine_F for y in Domaine_F for z in Image_F if z == x + y}
 I = application('I', Def_I, Domaine_I, Image_I)
 
-Domaine_J = Domaine_F
-Image_J = Image_F
-Def_J = {x for x in Def_F if x != (4,8)}
-J = application('J', Def_J, Domaine_J, Image_J)
-
-Ens_application = {F, G, H, I, J}
+Ens_application = {F, G, H, I}
 
 for app in Ens_application:
     print('\nFonction %s :'%app.nom)
@@ -81,7 +76,6 @@ for app in Ens_application:
 
 print('\nRestriction :')
 print('--------------')
-for couple in {(x,y) for x in Ens_application for y in Ens_application}:
+for couple in {(x,y) for x in Ens_application for y in Ens_application if x != y}:
     print('%s est une restriction de %s : '%(couple[0].nom, couple[1].nom), couple[0].est_une_restriction(couple[1]))
-    print('%s est une restriction de %s : '%(couple[1].nom, couple[0].nom), couple[1].est_une_restriction(couple[0]))
 
