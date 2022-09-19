@@ -35,11 +35,31 @@ class application:
        return self.domaine.issubset(other.domaine) & self.definition.issubset(other.definition)
     def est_une_extension(self, other):
         return other.est_une_restriction(self)
+    def show(self):
+        print('\nFonction %s :'%self.nom)
+        print('--------------')
+        print('Domaine : ', self.domaine)
+        print('Image : ', self.image)
+        print('Definition : ', self.definition)
+        print('Arite : ', self.arite)
+        if self.arite > 1:
+            out = list(map(lambda x: self.nom + '(' + str(x) + ')=' + str(self(*(x))), self.domaine))
+        else:
+            out = list(map(lambda x: self.nom + '(' + str(x) + ')=' + str(self(x)), self.domaine))
+        print("Exemples d'appels : %s"%('\t').join(out[1:5]))
+        print('Injective : ', self.est_injective())
+        print('Surjective : ', self.est_surjective())
+        print('Bijective : ', self.est_bijective())
 
 Domaine_F = {1,2,3,4}
 Image_F = {2,4,6,8}
 Def_F = {(1,2),(2,4),(3,6),(4,8)}
 F = application('F', Def_F, Domaine_F, Image_F)
+
+Domaine_F1 = {1,2,3,4}
+Image_F1 = {2,4,6,8}
+Def_F1 = {(1,1,2),(2,1,4),(3,1,6),(4,1,8)}
+F1 = application('F1', Def_F1, Domaine_F1, Image_F1)
 
 Domaine_G = {1,2,3,4}
 Image_G = {2,4,6,8}
@@ -59,23 +79,8 @@ I = application('I', Def_I, Domaine_I, Image_I)
 Ens_application = {F, G, H, I}
 
 for app in Ens_application:
-    print('\nFonction %s :'%app.nom)
-    print('--------------')
-    print('Domaine : ', app.domaine)
-    print('Image : ', app.image)
-    print('Definition : ', app.definition)
-    print('Arite : ', app.arite)
-    if app.arite > 1:
-        out = list(map(lambda x: app.nom + '(' + str(x) + ')=' + str(app(*(x))), app.domaine))
-    else:
-        out = list(map(lambda x: app.nom + '(' + str(x) + ')=' + str(app(x)), app.domaine))
-    print("Exemples d'appels : %s"%('\t').join(out[1:5]))
-    print('Injective : ', app.est_injective())
-    print('Surjective : ', app.est_surjective())
-    print('Bijective : ', app.est_bijective())
-
+    app.show()
 print('\nRestriction :')
 print('--------------')
 for couple in {(x,y) for x in Ens_application for y in Ens_application if x != y}:
     print('%s est une restriction de %s : '%(couple[0].nom, couple[1].nom), couple[0].est_une_restriction(couple[1]))
-
