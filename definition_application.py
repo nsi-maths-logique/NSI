@@ -1,10 +1,12 @@
-class application:
+class fonction:
     def __init__(self, nom, definition, domaine, image):
         self.nom = nom
         self.definition = definition
         self.domaine = domaine
         self.image = image
         self.arite = len(max(definition)) - 1
+        if self.est_une_fonction():
+            raise Exception("Oooops, l'objet defini n'est pas une fonction") 
     def __call__(self, *arg):
         for tuple in self.definition:
             if tuple[:len(tuple)-1] == arg:
@@ -23,8 +25,8 @@ class application:
         count = {}
         for elem in self.image:
             count[elem] = 0
-        for tuple in self.definition:
-            count[tuple[-1]] += 1
+        for _tuple in self.definition:
+            count[_tuple[-1]] += 1
         for clef, valeur in count.items():
             if valeur == 0:
                 return False
@@ -35,6 +37,30 @@ class application:
        return self.domaine.issubset(other.domaine) & self.definition.issubset(other.definition)
     def est_une_extension(self, other):
         return other.est_une_restriction(self)
+    def est_une_application(self):
+        motif = '('
+        for i in range(self.arite):
+            motif += 'x' + str(i) + ','
+        motif_args = motif[0:-1] + ')'
+        motif_def = motif + 'y)'
+        dom_def = eval('{%s for %s in %s for y in %s}'%(motif_args, motif_def, self.definition, self.image))
+        return dom_def == self.domaine
+    def est_une_fonction(self):
+        count = {}
+        for elem in self.domaine:
+            if self.arite == 1:
+                count[elem] = 0
+            else:
+                count[str(elem)] = 0
+        for _tuple in self.definition:
+            if self.arite == 1:
+                count[_tuple[0]] += 1
+            else:
+                count[str(_tuple[0:-1])] += 1
+        for clef, valeur in count.items():
+            if valeur > 1:
+                return True
+        return False
     def show(self):
         print('\nFonction %s :'%self.nom)
         print('--------------')
@@ -50,37 +76,30 @@ class application:
         print('Injective : ', self.est_injective())
         print('Surjective : ', self.est_surjective())
         print('Bijective : ', self.est_bijective())
+        print('Est une application : ', self.est_une_application())
 
-Domaine_F = {1,2,3,4}
-Image_F = {2,4,6,8}
+Domaine = {1,2,3,4}
+Image = {2,4,6,8}
 Def_F = {(1,2),(2,4),(3,6),(4,8)}
-F = application('F', Def_F, Domaine_F, Image_F)
+F = fonction('F', Def_F, Domaine, Image)
 
-Domaine_F1 = {1,2,3,4}
-Image_F1 = {2,4,6,8}
-Def_F1 = {(1,1,2),(2,1,4),(3,1,6),(4,1,8)}
-F1 = application('F1', Def_F1, Domaine_F1, Image_F1)
 
-Domaine_G = {1,2,3,4}
-Image_G = {2,4,6,8}
 Def_G = {(1,2),(2,4),(3,6)}
-G = application('G', Def_G, Domaine_G, Image_G)
+G = fonction('G', Def_G, Domaine, Image)
 
-Domaine_H = {1,2,3,4}
-Image_H = {2,4,6,8}
 Def_H = {(1,2),(2,4),(3,4)}
-H = application('H', Def_H, Domaine_H, Image_H)
+H = fonction('H', Def_H, Domaine, Image)
 
-Domaine_I = {(x, y) for x in Domaine_F for y in Domaine_F}
+Domaine_I = {(x, y) for x in Domaine for y in Domaine}
 Image_I = {2,4,6,8}
-Def_I = {(x, y, z) for x in Domaine_F for y in Domaine_F for z in Image_F if z == x + y}
-I = application('I', Def_I, Domaine_I, Image_I)
+Def_I = {(x, y, z) for x in Domaine for y in Domaine for z in Image if z == x + y}
+I = fonction('I', Def_I, Domaine_I, Image_I)
 
-Ens_application = {F, G, H, I}
+Ens_fonctions = {F, G, H, I}
 
-for app in Ens_application:
-    app.show()
+for fonc in Ens_fonctions:
+    fonc.show()
 print('\nRestriction :')
 print('--------------')
-for couple in {(x,y) for x in Ens_application for y in Ens_application if x != y}:
+for couple in {(x,y) for x in Ens_fonctions for y in Ens_fonctions if x != y}:
     print('%s est une restriction de %s : '%(couple[0].nom, couple[1].nom), couple[0].est_une_restriction(couple[1]))
