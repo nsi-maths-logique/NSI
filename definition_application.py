@@ -1,4 +1,5 @@
 class fonction:
+    '''Implantation des fonctions a la facon de la theorie des ensembles, c'est-dire par leur graphe'''
     def __init__(self, nom, definition, domaine, image):
         self.nom = nom
         self.definition = definition
@@ -13,6 +14,7 @@ class fonction:
                 return tuple[-1]
         return None
     def est_injective(self):
+        '''verifie que chaque element de l'image a au plus un antecedent'''
         count = {}
         for elem in self.image:
             count[elem] = 0
@@ -22,6 +24,7 @@ class fonction:
                 return False
         return True
     def est_surjective(self):
+        '''verifie que chaque element de l'image a au moins un antecedent'''
         count = {}
         for elem in self.image:
             count[elem] = 0
@@ -32,12 +35,14 @@ class fonction:
                 return False
         return True
     def est_bijective(self):
+        '''verifie que chaque element de l'image a exactement un antecedent'''
         return self.est_injective() & self.est_surjective()
     def est_une_restriction(self, other):
        return self.domaine.issubset(other.domaine) & self.definition.issubset(other.definition)
     def est_une_extension(self, other):
         return other.est_une_restriction(self)
     def est_une_application(self):
+        '''verifie si la fonction est definie sur l'ensemble du domaine'''
         motif = '('
         for i in range(self.arite):
             motif += 'x' + str(i) + ','
@@ -46,6 +51,7 @@ class fonction:
         dom_def = eval('{%s for %s in %s for y in %s}'%(motif_args, motif_def, self.definition, self.image))
         return dom_def == self.domaine
     def est_une_fonction(self):
+        '''verifie si un element du domaine a plusieurs images. Dans ce cas, il s'agit d'une relation qui n'est pas une fonction'''
         count = {}
         for elem in self.domaine:
             if self.arite == 1:
