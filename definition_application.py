@@ -96,7 +96,6 @@ Def_I = {(x, y, z) for x in Domaine for y in Domaine for z in Image if z == x + 
 I = fonction('I', Def_I, Domaine_I, Image_I)
 
 Ens_fonctions = {F, G, H, I}
-
 for fonc in Ens_fonctions:
     fonc.show()
 print('\nRestriction :')
