@@ -6,7 +6,7 @@ class fonction:
         self.domaine = domaine
         self.image = image
         self.arite = len(max(definition)) - 1
-        if self.est_une_fonction():
+        if not self.est_une_fonction():
             raise Exception("Oooops, l'objet defini n'est pas une fonction") 
     def __call__(self, *arg):
         for tuple in self.definition:
@@ -65,8 +65,8 @@ class fonction:
                 count[str(_tuple[0:-1])] += 1
         for clef, valeur in count.items():
             if valeur > 1:
-                return True
-        return False
+                return False
+        return True
     def show(self):
         print('\nFonction %s :'%self.nom)
         print('--------------')
@@ -88,7 +88,6 @@ Domaine = {1,2,3,4}
 Image = {2,4,6,8}
 Def_F = {(1,2),(2,4),(3,6),(4,8)}
 F = fonction('F', Def_F, Domaine, Image)
-
 
 Def_G = {(1,2),(2,4),(3,6)}
 G = fonction('G', Def_G, Domaine, Image)
