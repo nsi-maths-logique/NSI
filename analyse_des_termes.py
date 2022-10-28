@@ -87,8 +87,7 @@ class term:
         elif regex.match(r"%s" %var, self.value):
             return (self.value, 'variable')
         elif regex.match(r"%s" %fonc, self.value):
-            return (regex.findall(r"^([fgh]\d*)\(.*\)$",
-self.value)[0], 'fonction')
+            return (regex.findall(r"^([fgh]\d*)\(.*\)$", self.value)[0], 'fonction')
         return
     def show(self, tab = ''):
         if self.type == 'fonction':
