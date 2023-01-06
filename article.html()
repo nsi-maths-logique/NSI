@@ -1,0 +1,7 @@
+    def html(self):
+        html_template = "\t\t<div class='article'>\n"
+        html_template += f"\t\t\t<div class='titre'>{self.titre}</div>\n"
+        html_template += f"\t\t\t<p class='contenu'>{self.contenu}</p>\n"
+        html_template += f"\t\t\t<div class='auteur'>{self.auteur}</div>\n"
+        html_template += "\t\t</div>\n"
+        return html_template
