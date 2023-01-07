@@ -1,0 +1,19 @@
+    def html(self):
+        html_template = "<!doctype html>\n"
+        html_template += "<html lang='fr'>\n"
+        html_template += "<head>\n"
+        html_template += "\t<meta charset='utf-8'>\n"
+        html_template += "\t<title>Le journal de l'&eacute;cole</title>\n"
+        html_template += "\t<link href='journal.css' rel='stylesheet'>"
+        html_template += "</head>\n"
+        html_template += "<body>\n"
+        html_template += "\t<div class='journal'>\n"
+        html_template += "\t<div class='header'>Le journal de l'&eacute;cole</div>\n"
+        for elem in self.articles:
+            html_template += elem.html()
+        html_template += "\t</div>\n"
+        html_template += "</body>\n"
+        f = open('index.html', 'w')
+        f.write(html_template)
+        f.close()
+        webbrowser.open('index.html')
